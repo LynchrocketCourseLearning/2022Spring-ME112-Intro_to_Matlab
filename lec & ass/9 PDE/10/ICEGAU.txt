@@ -1,0 +1,23 @@
+% 1
+clear all; clc;
+T = [0 0 0 0 0; 
+    75 0 0 0 50; 
+    75 0 0 0 50;
+    75 0 0 0 50;
+    100 100 100 100 100];
+Tt = [0;0;0;0;0;0;0;0;0];
+lambda = 1.5;
+err = 1;
+while 1
+    for i = 2:4
+        for j = 2:4
+            tmp = T(i,j);
+            T(i,j) = lambda*(T(i+1,j)+T(i-1,j)+T(i,j+1)+T(i,j-1))/4+(1-lambda)*T(i,j);
+            err = min(err,abs(T(i,j)-tmp)/T(i,j));
+        end
+    end
+    if err < 0.001
+        break;
+    end
+end
+T(2:4,2:4)

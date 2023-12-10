@@ -1,0 +1,64 @@
+%% Assignment for ODE with b.c.
+% Liu Leqi, 12011327
+%% Problem 1
+clear all; clc;
+solinit1 = bvpinit(linspace(1,2,10),[1 -1]);
+sol1 = bvp4c(@bvpfun1,@bcfun1,solinit1);
+xint1 = linspace(1,2);
+S1 = deval(sol1,xint1,1);
+figure;
+subplot(2,1,1);
+plot(xint1, S1);
+legend("ODE solution","Location","best");
+subplot(2,1,2);
+ysin = sin(xint1).^2;
+plot(xint1, ysin);
+legend("y=sin^2(x)","Location","best");
+disp('They are almost the same.');
+
+%% Problem 2
+clear all; clc;
+solinit2 = bvpinit(linspace(0.00001,0.001,10),[1 0]);
+sol2 = bvp4c(@bvpfun2,@bcfun2,solinit2);
+xint2 = linspace(0.00001,0.001);
+S2 = deval(sol2,xint2,1);
+plot(xint2, S2);
+fprintf("The peak temperature is: %.2f C\n", max(S2));
+
+%% Problem 3
+clear all; clc;
+solinit3 = bvpinit(linspace(0.00001,0.001,10),[1 0]);
+sol3 = bvp4c(@bvpfun3,@bcfun3,solinit3);
+xint3 = linspace(0.00001,0.001);
+S3 = deval(sol3,xint3,1);
+plot(xint3, S3);
+fprintf("The peak temperature is: %.2f C\n", max(S3));
+
+%% Functions
+% P1
+
+function dydx = bvpfun1(x,y)
+dydx = [y(2) 2-4*y(1)^2/sin(x)^2];
+end
+function res = bcfun1(ya,yb)
+res = [ya(2)-2*sin(1)*cos(1) yb(1)-sin(2)^2];
+end
+
+% P2
+function dydx = bvpfun2(x,y)
+k=0.1; Q=2.1e6;
+dydx = [y(2) -1/x*y(2)-Q/k];
+end
+function res = bcfun2(ya,yb)
+res = [ya(2) yb(1)-20];
+end
+
+% P3
+function dydx = bvpfun3(x,y)
+k=0.1; Q=2.1e6;
+dydx = [y(2) -1/x*y(2)-Q/k];
+end
+function res = bcfun3(ya,yb)
+h=10; Te=20; Q=2.1e6; R=0.001;
+res = [ya(2) yb(1)-Te-Q*R/(2*h)];
+end

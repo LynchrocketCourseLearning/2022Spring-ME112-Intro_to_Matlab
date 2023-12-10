@@ -1,0 +1,76 @@
+%% ICE for ODE with I.C.
+% Liu Leqi, 12011327
+%% Problem 1
+
+clear all; clc;
+R = 0.55; C = 10000; NC = 10000; r = 10000; % given values
+tr = [0 50]; % time interval
+initv = 10000; % innitial condition
+f1 = @(t,N) R*N*(1-N/C)-r*N^2/(NC^2+N^2); % function 
+[t,y] = ode45(f1,tr,initv);
+plot(t,y)
+ylabel('Number of Insects');
+xlabel('time');
+fprintf('The steady state population is %.f \n',y(end));
+fprintf('It takes %.2f days to get there. \n',min(t(fix(y)==fix(y(end)))));
+%% Problem 2
+
+clear all; clc;
+r = 0.8; b = 40; % given values
+tr = [0 b/r]; % time interval
+m0 = 2200; % initial condition
+[t,y] = ode45(@f2,tr,m0);
+plot(t,y);
+ylabel('Rocket''s velocity (m/s)');
+xlabel('time (s)');
+fprintf('The final velocity is %.f m/s', y(end-4));
+%% Problem 3
+
+clear all; clc;
+tr=[0 5]; %seconds
+init=[pi/8 0]; %start at pi/8 
+[t,y]=ode45(@rkpend, tr, init);
+plot(t,y(:,1));
+ylabel('theta');
+xlabel('time(s)');
+hold on;
+
+init=[pi/2 0]; %start at pi/2 
+[t,y]=ode45(@rkpend, tr, init);
+plot(t,y(:,1));
+hold on;
+
+init=[pi-0.1 0]; %start at pi-0.1
+[t,y]=ode45(@rkpend, tr, init);
+plot(t,y(:,1));
+hold off;
+legend('pi/8','pi/2','pi-0.1');
+%% Problem 4
+
+clear all; clc;
+w0 = [300 150];
+tr = [0 10];
+[t,y]=ode45(@rkfox, tr, w0);
+plot(t,y);
+legend('rabbits','foxes');
+%% Functions
+
+function rk = f2(t,m0)
+T = 48000; r = 0.8; g = 9.81; b = 40;
+m = m0*(1-r*t/b);
+rk = T/m - g;
+end
+
+function p = rkpend(t,w)
+r = 1; g = 9.81;
+p = zeros(2,1);
+p(1) = w(2);
+p(2) = -g/r*sin(w(1));
+end
+
+function z = rkfox(t,w)
+alpha = 0.01;
+z = zeros(2,1);
+z(1) = 2*w(1)-alpha*w(1)*w(2);
+z(2) = -w(2)+alpha*w(1)*w(2);
+end

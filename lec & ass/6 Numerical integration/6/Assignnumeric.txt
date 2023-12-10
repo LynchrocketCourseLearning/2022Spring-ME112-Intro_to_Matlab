@@ -1,0 +1,88 @@
+%% Assignment for Numerical Integration
+% Liu Leqi, 12011327
+%% Problem 1
+clear all; clc;
+syms x 
+expr = (x+1/x)^2;
+I = int(expr, [1,2]);
+x1 = 1:1:2; x2 = 1:0.5:2; x3 = 1:1/3:2; x4 = 1:0.25:2;
+y1 = (x1+1./x1).^2; y2 = (x2+1./x2).^2; y3 = (x3+1./x3).^2; y4 = (x4+1./x4).^2;
+I1 = trapz(x1,y1); I2 = trapz(x2,y2); I3 = trapz(x3,y3); I4 = trapz(x4,y4);
+fprintf("n = 1, I1 = %.2f; \nn = 2, I2 = %.2f; \nn = 3, I3 = %.2f; \nn = 4, I4 = %.2f \n", I1,I2,I3,I4);
+fprintf("with analytical solution %.2f, the percent relative errors are: \n", I);
+fprintf("n = 1, e1 = %.4f%%; \nn = 2, e2 = %.4f%%; \nn = 3, e3 = %.4f%%; \nn = 4, e4 = %.4f%% \n", (I-I1)/I,(I-I2)/I,(I-I3)/I,(I-I4)/I);
+
+%% Problem 2
+clear all; clc;
+% analytical
+syms x 
+expr = x^2*exp(x);
+I = int(expr, [0,3]);
+% numerical
+x = 0:3/4:3; y = x.^2.*exp(x);
+I1 = trapz(x,y); I2 = simpint('f',0,3,4);
+fprintf("analytical: %.2f; trapezoidal: %.2f; simpson: %.2f \n", I,I1,I2);
+fprintf("the percent relative errors are: \n");
+fprintf("e-trapezoidal = %.4f%%, e-simpson = %.4f%% \n",(I-I1)/I,(I-I2)/I);
+
+%% Problem 3
+clear all; clc;
+y = [0 1 3 5 7 8 9 10]; H = [0 1 1.5 3 3.5 3.2 2 0]; U = [0 0.1 0.12 0.2 0.25 0.3 0.15 0];
+% a
+d = trapz(y,H)/10;
+fprintf("the average depth is %.2f \n",d);
+% b
+A = trapz(y,H);
+fprintf("the cross-sectional area is %.2f \n",A);
+% c
+v = trapz(y,U)/10;
+fprintf("the average velocity is %.2f \n",v);
+% d
+Q = trapz(y,H.*U);
+fprintf("the flow rate is %.2f \n",Q);
+
+%% Problem 4
+clear all; clc;
+t = [0 1 5.5 10 12 14 16 18 20 24]; c = [1 1.5 2.3 2.1 4 5 5.5 5 3 1.2];
+Q = 20+10*sin(2*pi/24*(t-10));
+r = trapz(t,Q.*c)/trapz(t,Q);
+fprintf("the flow-weighted average concentration is: %.2f \n", r);
+
+%% Problem 5 
+clear all; clc;
+t = [0 15 30 45 75 105]; R = [18 24 26 20 18 9];
+% a
+total = trapz(t,R/4);
+fprintf("The total number of cars is: %.f \n",total);
+% b
+fprintf("The rate is: %.2f cars/minutes \n", total/105);
+
+%% function
+function y = f(x)
+y = x^2*exp(x);
+end
+function val = simpint(f,a,b,n)
+h = (b-a)/n;
+s1=0; s2=0;
+for k=1:2:(n-1)
+    x=a+h*k;
+    s1=s1+feval(f,x);
+end
+for k=2:2:(n-2)
+    x=a+h*k;
+    s2=s2+feval(f,x);
+end
+val=h*(feval(f,a)+feval(f,b)+4*s1+2*s2)/3;
+end
+
+
+
+
+
+
+
+
+
+
+
+

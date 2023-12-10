@@ -1,0 +1,189 @@
+%% Assignment for linear equations
+% Liu Leqi, 12011327
+%% Problem 1
+clear all; clc;
+% a
+A1 = [2 1; 3 -9]; b1 = [5;7];
+if rank(A1)==rank([A1 b1])
+    disp("The linear equations of (a) is solvable.");
+    if rank(A1)==2
+        disp("The linear equations of (a) has unique solution.");
+        r1 = A1\b1;
+        fprintf("x = %.2f, y = %.2f \n", r1(1), r1(2));
+    else
+        disp("Unique solution does not exist for (a).");
+    end
+else
+    disp("The linear equations of (a) is not solvable.");
+end
+% b
+A2 = [-8 -5; -2 7]; b2 = [4;10];
+if rank(A2)==rank([A2 b2])
+    disp("The linear equations of (b) is solvable.");
+    if rank(A2)==2
+        disp("The linear equations of (b) has unique solution.");
+        r2 = A2\b2;
+        fprintf("x = %.2f, y = %.2f \n", r2(1), r2(2));
+    else
+        disp("Unique solution does not exist for (b).");
+    end
+else
+    disp("The linear equations of (b) is not solvable.");
+end
+% c
+A3 = [12 -5 0; -3 4 7; 6 2 3]; b3 = [11;-3;22];
+if rank(A3)==rank([A3 b3])
+    disp("The linear equations of (c) is solvable.");
+    if rank(A3)==3
+        disp("The linear equations of (c) has unique solution.");
+        r3 = A3\b3;
+        fprintf("x = %.2f, y = %.2f, x3 = %.2f \n", r3(1), r3(2), r3(3));
+    else
+        disp("Unique solution does not exist for (c).");
+    end
+else
+    disp("The linear equations of (c) is not solvable.");
+end
+% d
+A4 = [6 -3 4; 12 5 -7; -5 2 6]; b4 = [41;-26;16];
+if rank(A4)==rank([A4 b4])
+    disp("The linear equations of (d) is solvable.");
+    if rank(A4)==3
+        disp("The linear equations of (d) has unique solution.");
+        r4 = A4\b4;
+        fprintf("x = %.2f, y = %.2f, x3 = %.2f \n", r4(1), r4(2), r4(3));
+    else
+        disp("Unique solution does not exist for (d).");
+    end
+else
+    disp("The linear equations of (d) is not solvable.");
+end
+
+%% Problem 2
+clear all; clc;
+% a
+disp("The solution is C = inv(B)*(inv(A)*B-A)");
+% b
+A = [7 9; -2 4]; B = [4 -3; 7 6];
+C = B\(A\B-A);
+disp(C);
+
+%% Problem 3
+clear all; clc;
+% a
+A1 = [-2 1; -2 1]; b1 = [-5;3];
+if rank(A1)==rank([A1 b1])
+    disp("The linear equations of (a) is solvable.");
+    if rank(A1)==2
+        disp("The linear equations of (a) has unique solution.");
+        r1 = A1\b1;
+        fprintf("x = %.2f, y = %.2f \n", r1(1), r1(2));
+    else
+        disp("Unique solution does not exist for (a).");
+    end
+else
+    disp("The linear equations of (a) is not solvable.");
+end
+% b
+A2 = [-2 1; -8 4]; b2 = [3;12];
+if rank(A2)==rank([A2 b2])
+    disp("The linear equations of (b) is solvable.");
+    if rank(A2)==2
+        disp("The linear equations of (b) has unique solution.");
+    else
+        disp("Unique solution does not exist for (b).");
+        B = rref([A2 b2]);
+        fprintf("x = %.2f + %.2fy; y is an arbitrary real number \n", B(1,3), -B(1,2));
+    end
+else
+    disp("The linear equations of (b) is not solvable.");
+end
+% c
+A3 = [-2 1; -2 1]; b3 = [-5; -5.00001];
+if rank(A3)==rank([A3 b3])
+    disp("The linear equations of (c) is solvable.");
+    if rank(A3)==2
+        disp("The linear equations of (c) has unique solution.");
+    else
+        disp("Unique solution does not exist for (c).");
+    end
+else
+    disp("The linear equations of (c) is not solvable.");
+end
+% d
+A4 = [1 5 -1 6; 2 -1 1 -2; -1 4 -1 3; 3 -7 -2 1]; b4 = [19;7;30;-75];
+if rank(A4)==rank([A4 b4])
+    disp("The linear equations of (d) is solvable.");
+    if rank(A4)==4
+        disp("The linear equations of (d) has unique solution.");
+        r4 = A4\b4;
+        fprintf("x1 = %.2f, x2 = %.2f, x3 = %.2f, x4 = %.2f \n", r4(1), r4(2), r4(3), r4(4));
+    else
+        disp("Unique solution does not exist for (d).");
+    end
+else
+    disp("The linear equations of (d) is not solvable.");
+end
+
+%% Problem 4
+clear all; clc;
+% given values
+A = [1 -5 -2; 6 3 1; 7 3 -5]; b = [11;13;10];
+% a
+B = rref([A b]);
+fprintf("x = %.2fc, y = %.2fc, z = %.2fc \n", B(1,4),B(2,4),B(3,4));
+% b
+c = -10:0.1:10;
+x = B(1,4)*c; y = B(2,4)*c; z = B(3,4)*c;
+plot(c,x,c,y,c,z);
+legend('x','y','z');
+
+%% Problem 5 ##
+clear all; clc;
+% a
+% For simplification, a0 indicates $\theta_1(0)$ and b0 indicates $\theta_2(0)$
+% at indicates $\theta_1(t)$ and bt indicates $\theta_2(t)$
+% $at = a0+a1*t^3+a2*t^4+a3*t^5$
+% $0 = 3*a1*t^2+4*a2*t^3+5*a3*t^4$
+% $0 = 6*a1*t+12*a2*t^2+20*a3*t^3$
+%
+% $bt = b0+b1*t^3+b2*t^4+b3*t^5$
+% $0 = 3*b1*t^2+4*b2*t^3+5*b3*t^4$
+% $0 = 6*b1*t+12*b2*t^2+20*b3*t^3$
+
+% b
+tf = 2;
+M = [tf^3 tf^4 tf^5;
+    3*tf^2 4*tf^3 5*tf^4;
+    6*tf 12*tf^2 20*tf^3];
+o1 =[(19+43)*pi/180; 0; 0];o2 = [(151-44)*pi/180; 0; 0];
+a = M\o1; b = M\o2;
+fprintf("a1 = %.2f, a2 = %.2f, a3 = %.2f \n", a(1), a(2), a(3));
+fprintf("b1 = %.2f, b2 = %.2f, b3 = %.2f \n", b(1), b(2), b(3));
+
+% c
+L1 = 4; L2 = 3;
+t = 0:0.1:2;
+theta1 = -19*pi/180 + a(1)*t.^3 + a(2)*t.^4 + a(3)*t.^5; 
+theta2 = 44*pi/180 + b(1)*t.^3 + b(2)*t.^4 + b(3)*t.^5; 
+x = L1*cos(theta1)+L2*cos(theta1+theta2);
+y = L1*sin(theta1)+L2*sin(theta1+theta2);
+plot(x, y);
+xlim([0 6.5]);
+ylim([0 2]);
+
+%% Problem 6
+clear all; clc;
+% given values
+D = [0.01 0.125 0.06 0.05];
+R = [0.036 4.01 0.408 0.038];
+T = [20 0 0 0 -10];
+% find the three other temperature and the heat loss rate
+A = [1+R(1)/R(2) -R(1)/R(2) 0;
+    1 0 R(1)/R(4);
+    0 -R(4)/R(3) 1+R(4)/R(3)];
+b = [T(1);T(1)+R(1)/R(4)*T(5);T(5)];
+r = A\b;
+T(2:4) = r;
+fprintf("T1 = %.2f°C, T2 = %.2f°C, T3 = %.2f°C \n",T(2),T(3),T(4));
+fprintf("q = %.2f \n",(T(1)-T(2))/(10*R(1)));
